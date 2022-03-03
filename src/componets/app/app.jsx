@@ -4,7 +4,7 @@ import AppRouter from '../app-router/app-router';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
       <header>
         <nav>
           <ul>
