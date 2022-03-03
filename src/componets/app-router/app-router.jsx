@@ -9,9 +9,9 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<LeaguesPage />} />
-      <Route path="teams/" element={<TeamsPage />} />
+      <Route path="teams" element={<TeamsPage />} />
       <Route path="teams/:id" element={<TeamCalendarPage />} />
-      <Route path="/leagues/:id" element={<LeagueCalendarPage />} />
+      <Route path="leagues/:id" element={<LeagueCalendarPage />} />
     </Routes>
   );
 };
