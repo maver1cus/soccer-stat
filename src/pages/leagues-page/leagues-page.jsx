@@ -1,4 +1,5 @@
 import React from 'react';
+import withSoccerService from '../../hoc/with-soccer-service';
 
 const LeaguesPage = () => {
   return (
@@ -8,4 +9,8 @@ const LeaguesPage = () => {
   );
 };
 
-export default LeaguesPage;
+const mapMethodsToProps = (soccerService) => ({
+  getData: soccerService.getLeagues,
+});
+
+export default withSoccerService(mapMethodsToProps)(LeaguesPage);
