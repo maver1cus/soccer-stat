@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/soccer-stat/static/js/main.bf0c2f8d.js",
+    "main.js": "/soccer-stat/static/js/main.7930e060.js",
     "index.html": "/soccer-stat/index.html",
-    "main.bf0c2f8d.js.map": "/soccer-stat/static/js/main.bf0c2f8d.js.map"
+    "main.7930e060.js.map": "/soccer-stat/static/js/main.7930e060.js.map"
   },
   "entrypoints": [
-    "static/js/main.bf0c2f8d.js"
+    "static/js/main.7930e060.js"
   ]
 }
