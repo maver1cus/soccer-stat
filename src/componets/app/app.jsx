@@ -10,7 +10,7 @@ const soccerService = new SoccerService();
 function App() {
   return (
     <SoccerServiceProvider value={soccerService}>
-      <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
+      <BrowserRouter>
         <PagesLayout>
           <AppRouter />
         </PagesLayout>

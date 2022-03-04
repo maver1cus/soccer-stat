@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import routes from '../../const/index';
+import PageRoutes from '../../utils/page-routes';
 
 const AppRouter = () => {
   return (
     <Routes>
       {
-        routes.map(({ path, element }) => (
+        PageRoutes.map(({ path, element }) => (
           <Route path={path} element={element} key={path} />
         ))
       }

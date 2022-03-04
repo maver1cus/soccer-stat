@@ -3,10 +3,13 @@ class SoccerService {
     this.apiUrl = process.env.REACT_APP_API_BASE;
   }
 
-  static transformLeagues = (competition) => ({
-    id: competition.id,
-    country: competition.area.name,
-    name: competition.name,
+  static transformLeagues = ({
+    id, name, emblemUrl, area,
+  }) => ({
+    country: area.name,
+    id,
+    name,
+    emblemUrl,
   });
 
   getResource = async (url) => {
@@ -25,7 +28,6 @@ class SoccerService {
 
   getLeagues = async () => {
     const { competitions } = await this.getResource('/competitions');
-
     return competitions.map(SoccerService.transformLeagues);
   };
 }

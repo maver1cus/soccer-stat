@@ -1,6 +1,5 @@
 {
   "name": "soccer-stat",
-  "homepage": "https://maver1cus.github.io/soccer-stat/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
