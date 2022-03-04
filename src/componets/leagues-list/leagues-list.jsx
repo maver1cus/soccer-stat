@@ -1,14 +1,15 @@
 import React from 'react';
 import { Card } from 'antd';
+import { Link } from 'react-router-dom';
 import './leagues-list.css';
 
-const LeaguesList = ({ leagues }) => {
-  return (
-    <div className="leagues-list">
-      {leagues.map(({
-        id, name, country, emblemUrl,
-      }) => (
-        <Card key={id} span={5} className="leagues-list__card">
+const LeaguesList = ({ leagues }) => (
+  <div className="leagues-list">
+    {leagues.map(({
+      id, name, country, emblemUrl,
+    }) => (
+      <Link key={id} to={`leagues/${id}`}>
+        <Card className="leagues-list__card">
           <div
             className="leagues-list__image"
             style={{ backgroundImage: `url(${emblemUrl})` }}
@@ -16,9 +17,9 @@ const LeaguesList = ({ leagues }) => {
           <h3>{name}</h3>
           <p>{country}</p>
         </Card>
-      ))}
-    </div>
-  );
-};
+      </Link>
+    ))}
+  </div>
+);
 
 export default LeaguesList;
