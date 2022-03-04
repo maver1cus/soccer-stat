@@ -1,0 +1,38 @@
+.leagues-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.leagues-list__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leagues-list__image {
+  width: 80%;
+  height: 100px;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+}
+
+@media (max-width: 1440px)  {
+  .leagues-list {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px)  {
+  .leagues-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 425px)  {
+  .leagues-list {
+    grid-template-columns: 1fr;
+  }
+}

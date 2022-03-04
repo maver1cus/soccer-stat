@@ -1,10 +1,10 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import routes from '../../const/index';
+import PageRoutes from '../../utils/page-routes';
 
 const MainMenu = () => {
-  const routesInMenu = routes.filter((route) => route.menu);
+  const routesInMenu = PageRoutes.filter((route) => route.menu);
   return (
     <Menu theme="dark" mode="horizontal" defaultSelectedKeys={routesInMenu[0]}>
       {
