@@ -2,7 +2,7 @@ import moment from 'moment';
 
 class SoccerService {
   constructor() {
-    this.apiUrl = 'http://api.football-data.org/v2';
+    this.apiUrl = 'https://api.football-data.org/v2';
   }
 
   static transformLeagues = ({
