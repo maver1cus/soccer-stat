@@ -7,7 +7,7 @@ const LeagueCard = ({
   id, name, emblemUrl, country,
 }) => {
   return (
-    <Link to={`/league/${id}`}>
+    <Link to={`/leagues/${id}`}>
       <Card className="league-card">
         <div className="league-card__image">
           <img src={emblemUrl} alt="" />

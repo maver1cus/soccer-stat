@@ -1,0 +1,14 @@
+.team-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.team-card__image {
+  height: 100px;
+  text-align: center;
+}
+
+.team-card__image img {
+  height: 100%;
+}
