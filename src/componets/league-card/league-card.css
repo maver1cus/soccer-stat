@@ -1,0 +1,14 @@
+.league-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.league-card__image {
+  height: 100px;
+  text-align: center;
+}
+
+.league-card__image img {
+  height: 100%;
+}

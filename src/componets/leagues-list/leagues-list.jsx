@@ -1,23 +1,19 @@
 import React from 'react';
-import { Card } from 'antd';
-import { Link } from 'react-router-dom';
 import './leagues-list.css';
+import LeagueCard from '../league-card/league-card';
 
 const LeaguesList = ({ leagues }) => (
-  <div className="leagues-list">
+  <div className="item-list">
     {leagues.map(({
-      id, name, country, emblemUrl,
+      id, name, emblemUrl, country,
     }) => (
-      <Link key={id} to={`leagues/${id}`}>
-        <Card className="leagues-list__card">
-          <div
-            className="leagues-list__image"
-            style={{ backgroundImage: `url(${emblemUrl})` }}
-          />
-          <h3>{name}</h3>
-          <p>{country}</p>
-        </Card>
-      </Link>
+      <LeagueCard
+        key={id}
+        id={id}
+        name={name}
+        emblemUrl={emblemUrl}
+        country={country}
+      />
     ))}
   </div>
 );

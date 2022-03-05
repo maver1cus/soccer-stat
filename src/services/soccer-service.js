@@ -45,6 +45,10 @@ class SoccerService {
     matches: matches.map(SoccerService.transformMatch),
   });
 
+  static transformTeams = ({ id, name, crestUrl }) => ({
+    id, name, image: crestUrl,
+  });
+
   getResource = async (url) => {
     const res = await fetch(`${this.apiUrl}${url}`, {
       headers: {
@@ -71,6 +75,12 @@ class SoccerService {
     const leagueCalendar = await this.getResource(`/competitions/${leagueId}/matches/${datesQuery}`);
 
     return SoccerService.transformLeagueCalendar(leagueCalendar);
+  };
+
+  getTeams = async () => {
+    const { teams } = await this.getResource('/teams ');
+
+    return teams.map(SoccerService.transformTeams);
   };
 }
 

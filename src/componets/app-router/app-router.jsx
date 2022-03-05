@@ -10,7 +10,6 @@ const AppRouter = () => {
           <Route path={path} element={element} key={path} />
         ))
       }
-
     </Routes>
   );
 };
