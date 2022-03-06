@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React from 'react';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
 import {
-  Breadcrumb, Table, DatePicker, Space, Spin,
+  Breadcrumb, Table, DatePicker, Space,
 } from 'antd';
 import withSoccerService from '../../hoc/with-soccer-service';
+import compose from '../../hoc/compose';
+import WithDataCalendar from '../../hoc/with-data-calendar';
+import Config from '../../utils/const';
 
-const LeagueCalendarPage = ({ getData }) => {
-  const { id: leagueId } = useParams();
-  const [leagueName, setLeagueName] = useState('');
-  const [matches, setMatches] = useState([]);
-  const [dateStart, setDateStart] = useState('');
-  const [dateEnd, setDateEnd] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [isEror, setIsError] = useState(false);
-
+const LeagueCalendarPage = ({
+  data, paginationChangeHandler, datesChangeHandler, currentPage, dateFrom, dateTo, name, count,
+}) => {
   const columns = [
     { title: 'Дата', dataIndex: 'date', key: 'date' },
     { title: 'Время', dataIndex: 'time', key: 'time' },
@@ -23,28 +21,9 @@ const LeagueCalendarPage = ({ getData }) => {
     { title: 'Счет', dataIndex: 'score', key: 'score' },
   ];
 
-  useEffect(() => {
-    getData(leagueId, dateStart, dateEnd)
-      .then((data) => {
-        setLeagueName(data.leagueName);
-        setMatches(data.matches);
-      })
-      .catch(() => setIsError(true))
-      .finally(() => setIsLoading(false));
-  }, [dateStart, dateEnd]);
-
-  const dataPickerChangeHandler = (_, dates) => {
-    setDateStart(dates[0]);
-    setDateEnd(dates[1]);
-  };
-
-  if (isLoading) {
-    return <Spin />;
-  }
-
-  if (isEror) {
-    return <div>error</div>;
-  }
+  const defaultValueRangePicker = (dateFrom && dateTo)
+    ? [moment(dateFrom, 'YYYY-MM-DD'), moment(dateFrom, 'YYYY-MM-DD')]
+    : null;
 
   return (
     <div className="container">
@@ -53,15 +32,24 @@ const LeagueCalendarPage = ({ getData }) => {
           <Link to="/">Лиги</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          {leagueName}
+          {name}
         </Breadcrumb.Item>
       </Breadcrumb>
       <Space>
-        <DatePicker.RangePicker onChange={dataPickerChangeHandler} />
+        <DatePicker.RangePicker
+          defaultValue={defaultValueRangePicker}
+          onChange={datesChangeHandler}
+        />
       </Space>
       <Table
-        dataSource={matches}
+        dataSource={data}
         columns={columns}
+        pagination={{
+          pageSize: Config.COUNT_ITEMS_PER_PAGE,
+          total: count,
+          defaultCurrent: currentPage,
+          onChange: paginationChangeHandler,
+        }}
       />
     </div>
   );
@@ -71,4 +59,7 @@ const mapMethodsToProps = (apiService) => ({
   getData: apiService.getLeague,
 });
 
-export default withSoccerService(mapMethodsToProps)(LeagueCalendarPage);
+export default compose(
+  withSoccerService(mapMethodsToProps),
+  WithDataCalendar,
+)(LeagueCalendarPage);
