@@ -9,7 +9,7 @@ const withData = (View) => (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(searchParams.get('page') || 1);
   const [searchPhrase, setSearchPhrase] = useState(searchParams.get('q') || '');
-  const [data, setData] = useState([]);
+  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -17,7 +17,7 @@ const withData = (View) => (props) => {
     setIsLoading(true);
 
     getData()
-      .then((items) => setData(items))
+      .then((data) => setItems(data))
       .catch(({ message }) => setError(message))
       .finally(() => setIsLoading(false));
   }, []);
@@ -32,16 +32,16 @@ const withData = (View) => (props) => {
     setSearchPhrase(phrase);
   };
 
-  const getDataToShow = (filteredData) => {
+  const getItemsToShow = (filteredItems) => {
     const indexFirstElementToCurrentPage = (currentPage - 1) * Config.COUNT_ITEMS_PER_PAGE;
     const indexLastElementToCurrentPage =
       indexFirstElementToCurrentPage + Config.COUNT_ITEMS_PER_PAGE;
 
-    return filteredData
+    return filteredItems
       .slice(indexFirstElementToCurrentPage, indexLastElementToCurrentPage);
   };
 
-  const filteredData = data
+  const filteredItems = items
     .filter(({ name }) => name.toLowerCase().includes(searchPhrase.toLowerCase()));
 
   if (isLoading) {
@@ -55,12 +55,12 @@ const withData = (View) => (props) => {
   return (
     <View
       {...props}
-      data={getDataToShow(filteredData)}
+      items={getItemsToShow(filteredItems)}
       paginationChangeHandler={paginationChangeHandler}
       searchChangeHandler={searchChangeHandler}
       currentPage={currentPage}
       searchPhrase={searchPhrase}
-      count={filteredData.length}
+      count={filteredItems.length}
     />
   );
 };

@@ -10,7 +10,7 @@ const WithDataCalendar = (View) => (props) => {
   const [currentPage, setCurrentPage] = useState(searchParams.get('page') || 1);
   const [dateFrom, setDateFrom] = useState(searchParams.get('dateFrom') || '');
   const [dateTo, setDateTo] = useState(searchParams.get('dateTo') || '');
-  const [data, setData] = useState([]);
+  const [items, setItems] = useState([]);
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -19,9 +19,9 @@ const WithDataCalendar = (View) => (props) => {
     setIsLoading(true);
 
     getData(id, dateFrom, dateTo)
-      .then((item) => {
-        setName(item.name);
-        setData(item.items);
+      .then((data) => {
+        setName(data.name);
+        setItems(data.items);
       })
       .catch(({ message }) => setError(message))
       .finally(() => setIsLoading(false));
@@ -56,14 +56,14 @@ const WithDataCalendar = (View) => (props) => {
   return (
     <View
       {...props}
-      data={data}
+      data={items}
       paginationChangeHandler={paginationChangeHandler}
       datesChangeHandler={datesChangeHandler}
       currentPage={currentPage}
       dateFrom={dateFrom}
       dateTo={dateTo}
       name={name}
-      count={data.length}
+      count={items.length}
     />
   );
 };

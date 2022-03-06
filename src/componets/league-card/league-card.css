@@ -1,14 +1,24 @@
-.league-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+.league-card__image {
+  padding: 20px 0;
 }
 .league-card__image {
   height: 100px;
   text-align: center;
+  margin-bottom: 15px;
 }
 
 .league-card__image img {
   height: 100%;
+}
+
+.league-card__title {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+
+.league-card__caption {
+  font-size: 16px;
+  text-align: center;
 }

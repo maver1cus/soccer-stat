@@ -8,6 +8,7 @@ import withSoccerService from '../../hoc/with-soccer-service';
 import compose from '../../hoc/compose';
 import WithDataCalendar from '../../hoc/with-data-calendar';
 import { Config } from '../../utils/const';
+import './league-calendar-page.css';
 
 const LeagueCalendarPage = ({
   data, paginationChangeHandler, datesChangeHandler, currentPage, dateFrom, dateTo, name, count,
@@ -31,7 +32,7 @@ const LeagueCalendarPage = ({
 
   return (
     <div className="container">
-      <Breadcrumb>
+      <Breadcrumb className="league-calendar__breadcrumb">
         <Breadcrumb.Item>
           <Link to="/">Лиги</Link>
         </Breadcrumb.Item>
@@ -43,6 +44,7 @@ const LeagueCalendarPage = ({
         <DatePicker.RangePicker
           defaultValue={defaultValueRangePicker}
           onChange={datesChangeHandler}
+          className="league-calendar__date-picker"
         />
       </Space>
       <Table

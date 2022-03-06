@@ -97,11 +97,18 @@ class SoccerService {
     return teams.map(SoccerService.transformTeams);
   };
 
+  getTeamName = async (teamId) => {
+    const { name } = await this.getResource(`/teams/${teamId}`);
+
+    return name;
+  };
+
   getTeamCalendar = async (teamId, dateFrom, dateTo) => {
     const queryString = SoccerService.getQueryString(dateFrom, dateTo);
     const teamCalendar = await this.getResource(`/teams/${teamId}/matches/${queryString}`);
+    const name = await this.getTeamName(teamId);
 
-    return SoccerService.transformTeamCalendar(teamCalendar);
+    return { ...SoccerService.transformTeamCalendar(teamCalendar), name };
   };
 }
 
