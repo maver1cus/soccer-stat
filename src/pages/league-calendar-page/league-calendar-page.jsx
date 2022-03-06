@@ -13,8 +13,12 @@ const LeagueCalendarPage = ({
   data, paginationChangeHandler, datesChangeHandler, currentPage, dateFrom, dateTo, name, count,
 }) => {
   const columns = [
-    { title: 'Дата', dataIndex: 'date', key: 'date' },
-    { title: 'Время', dataIndex: 'time', key: 'time' },
+    {
+      title: 'Дата', dataIndex: 'date', key: 'date', fixed: 'left', width: 80,
+    },
+    {
+      title: 'Время', dataIndex: 'time', key: 'time', fixed: 'left', width: 65,
+    },
     { title: 'Команда А', dataIndex: 'homeTeam', key: 'homeTeam' },
     { title: 'Команда Б', dataIndex: 'awayTeam', key: 'awayTeam' },
     { title: 'Статус', dataIndex: 'status', key: 'status' },
@@ -44,6 +48,7 @@ const LeagueCalendarPage = ({
       <Table
         dataSource={data}
         columns={columns}
+        scroll={{ x: 1024 }}
         pagination={{
           pageSize: Config.COUNT_ITEMS_PER_PAGE,
           total: count,
