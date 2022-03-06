@@ -41,8 +41,8 @@ class SoccerService {
   };
 
   static transformLeagueCalendar = ({ competition, matches }) => ({
-    leagueName: competition.name,
-    matches: matches.map(SoccerService.transformMatch),
+    name: competition.name,
+    items: matches.map(SoccerService.transformMatch),
   });
 
   static transformTeams = ({ id, name, crestUrl }) => ({
@@ -68,9 +68,9 @@ class SoccerService {
     return competitions.map(SoccerService.transformLeagues);
   };
 
-  getLeague = async (leagueId, dateStart, dateEnd) => {
-    const datesQuery = (dateStart && dateEnd)
-      ? `?dateFrom=${dateStart}&dateTo=${dateEnd}`
+  getLeague = async (leagueId, dateFrom, dateTo) => {
+    const datesQuery = (dateFrom && dateTo)
+      ? `?dateFrom=${dateFrom}&dateTo=${dateTo}`
       : '';
     const leagueCalendar = await this.getResource(`/competitions/${leagueId}/matches/${datesQuery}`);
 
