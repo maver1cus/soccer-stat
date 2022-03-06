@@ -1,69 +1,66 @@
 import React, { useEffect, useState } from 'react';
-import { Spin } from 'antd';
 import { useSearchParams } from 'react-router-dom';
-import Config from '../utils/const';
+import { COUNT_ITEMS_PER_PAGE } from '../utils/const';
+import Spinner from '../componets/spinner/spinner';
+import ErrorMessage from '../componets/error-message/error-message';
 
 const withData = (View) => (props) => {
   const { getData } = props;
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(searchParams.get('page') || 1);
   const [searchPhrase, setSearchPhrase] = useState(searchParams.get('q') || '');
-  const [data, setData] = useState([]);
+  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setIsLoading(true);
 
     getData()
-      .then((items) => setData(items))
-      .catch(() => setIsError(true))
+      .then((data) => setItems(data))
+      .catch(({ message }) => setError(message))
       .finally(() => setIsLoading(false));
   }, []);
 
-  const setCurrentSearchParams = () => {
-    setSearchParams({
-      page: currentPage,
-      q: searchPhrase,
-    });
-  };
-
   const paginationChangeHandler = (page) => {
+    setSearchParams({ ...Object.fromEntries([...searchParams]), page });
     setCurrentPage(page);
-    setCurrentSearchParams();
   };
 
   const searchChangeHandler = (phrase) => {
+    setSearchParams({ page: 1, q: phrase });
     setSearchPhrase(phrase);
-    setCurrentSearchParams();
   };
 
-  const getDataToShow = () => {
-    const indexFirstElementToCurrentPage = (currentPage - 1) * Config.COUNT_ITEMS_PER_PAGE;
+  const getItemsToShow = (filteredItems) => {
+    const indexFirstElementToCurrentPage = (currentPage - 1) * COUNT_ITEMS_PER_PAGE;
     const indexLastElementToCurrentPage =
-      indexFirstElementToCurrentPage + Config.COUNT_ITEMS_PER_PAGE;
+      indexFirstElementToCurrentPage + COUNT_ITEMS_PER_PAGE;
 
-    return data
-      .filter(({ name }) => name.toLowerCase().includes(searchPhrase.toLowerCase()))
+    return filteredItems
       .slice(indexFirstElementToCurrentPage, indexLastElementToCurrentPage);
   };
+
+  const filteredItems = items
+    .filter(({ name }) => name.toLowerCase().includes(searchPhrase.toLowerCase()));
+
   if (isLoading) {
-    return <Spin />;
+    return <Spinner />;
   }
 
-  if (isError) {
-    return <div>error</div>;
+  if (error) {
+    return <ErrorMessage message={error} />;
   }
 
   return (
     <View
       {...props}
-      data={getDataToShow()}
+      items={getItemsToShow(filteredItems)}
       paginationChangeHandler={paginationChangeHandler}
       searchChangeHandler={searchChangeHandler}
       currentPage={currentPage}
       searchPhrase={searchPhrase}
-      count={data.length}
+      count={filteredItems.length}
     />
   );
 };

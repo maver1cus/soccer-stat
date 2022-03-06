@@ -1,13 +1,21 @@
 import moment from 'moment';
+import {
+  DATE_FORMAT, DATE_REQUSET_FORMAT, Message, TIME_FORMAT,
+} from '../utils/const';
 
 class SoccerService {
   constructor() {
     this.apiUrl = 'https://api.football-data.org/v2';
   }
 
-  static getQueryString = (dateFrom, dateTo) => ((dateFrom && dateTo)
-    ? `?dateFrom=${dateFrom}&dateTo=${dateTo}`
-    : '');
+  static getQueryString = (dateFrom, dateTo) => {
+    const dateFromRequestFormat = moment(dateFrom).format(DATE_REQUSET_FORMAT);
+    const dateToRequestFormat = moment(dateTo).format(DATE_REQUSET_FORMAT);
+
+    return (dateFrom && dateTo)
+      ? `?dateFrom=${dateFromRequestFormat}&dateTo=${dateToRequestFormat}`
+      : '';
+  };
 
   static transformLeagues = ({
     id, name, emblemUrl, area,
@@ -35,8 +43,8 @@ class SoccerService {
     return {
       id,
       key: id,
-      date: moment(utcDate).format('YYYY-MM-DD'),
-      time: moment(utcDate).format('HH:MM:SS'),
+      date: moment(utcDate).format(DATE_FORMAT),
+      time: moment(utcDate).format(TIME_FORMAT),
       homeTeam: homeTeam.name,
       awayTeam: awayTeam.name,
       status,
@@ -67,7 +75,12 @@ class SoccerService {
     });
 
     if (!res.ok) {
-      throw new Error(`Coluld not fetch ${url}, recevived ${res.status}`);
+      let message = Message.UNKNOWN_ERROR;
+
+      if (res.status === 403) {
+        message = Message.ERROR_PERMISSIONS_API;
+      }
+      throw new Error(message);
     }
 
     return res.json();
@@ -91,11 +104,18 @@ class SoccerService {
     return teams.map(SoccerService.transformTeams);
   };
 
+  getTeamName = async (teamId) => {
+    const { name } = await this.getResource(`/teams/${teamId}`);
+
+    return name;
+  };
+
   getTeamCalendar = async (teamId, dateFrom, dateTo) => {
     const queryString = SoccerService.getQueryString(dateFrom, dateTo);
     const teamCalendar = await this.getResource(`/teams/${teamId}/matches/${queryString}`);
+    const name = await this.getTeamName(teamId);
 
-    return SoccerService.transformTeamCalendar(teamCalendar);
+    return { ...SoccerService.transformTeamCalendar(teamCalendar), name };
   };
 }
 

@@ -1,14 +1,18 @@
-.team-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+.team-card__image {
+  padding: 20px 0;
 }
 .team-card__image {
   height: 100px;
   text-align: center;
+  margin-bottom: 15px;
 }
 
 .team-card__image img {
   height: 100%;
+}
+
+.team-card__title {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
 }

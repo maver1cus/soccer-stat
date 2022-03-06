@@ -7,14 +7,19 @@ import {
 import withSoccerService from '../../hoc/with-soccer-service';
 import compose from '../../hoc/compose';
 import WithDataCalendar from '../../hoc/with-data-calendar';
-import Config from '../../utils/const';
+import { COUNT_ITEMS_PER_PAGE, DATE_FORMAT } from '../../utils/const';
+import './league-calendar-page.css';
 
 const LeagueCalendarPage = ({
   data, paginationChangeHandler, datesChangeHandler, currentPage, dateFrom, dateTo, name, count,
 }) => {
   const columns = [
-    { title: 'Дата', dataIndex: 'date', key: 'date' },
-    { title: 'Время', dataIndex: 'time', key: 'time' },
+    {
+      title: 'Дата', dataIndex: 'date', key: 'date', fixed: 'left', width: 80,
+    },
+    {
+      title: 'Время', dataIndex: 'time', key: 'time', fixed: 'left', width: 65,
+    },
     { title: 'Команда А', dataIndex: 'homeTeam', key: 'homeTeam' },
     { title: 'Команда Б', dataIndex: 'awayTeam', key: 'awayTeam' },
     { title: 'Статус', dataIndex: 'status', key: 'status' },
@@ -22,12 +27,12 @@ const LeagueCalendarPage = ({
   ];
 
   const defaultValueRangePicker = (dateFrom && dateTo)
-    ? [moment(dateFrom, 'YYYY-MM-DD'), moment(dateFrom, 'YYYY-MM-DD')]
+    ? [moment(dateFrom, DATE_FORMAT), moment(dateFrom, DATE_FORMAT)]
     : null;
 
   return (
     <div className="container">
-      <Breadcrumb>
+      <Breadcrumb className="league-calendar__breadcrumb">
         <Breadcrumb.Item>
           <Link to="/">Лиги</Link>
         </Breadcrumb.Item>
@@ -39,13 +44,16 @@ const LeagueCalendarPage = ({
         <DatePicker.RangePicker
           defaultValue={defaultValueRangePicker}
           onChange={datesChangeHandler}
+          format={DATE_FORMAT}
+          className="league-calendar__date-picker"
         />
       </Space>
       <Table
         dataSource={data}
         columns={columns}
+        scroll={{ x: 1024 }}
         pagination={{
-          pageSize: Config.COUNT_ITEMS_PER_PAGE,
+          pageSize: COUNT_ITEMS_PER_PAGE,
           total: count,
           defaultCurrent: currentPage,
           onChange: paginationChangeHandler,

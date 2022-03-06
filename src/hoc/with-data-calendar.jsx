@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Spin } from 'antd';
+import ErrorMessage from '../componets/error-message/error-message';
+import Spinner from '../componets/spinner/spinner';
 
 const WithDataCalendar = (View) => (props) => {
   const { getData } = props;
@@ -9,20 +10,20 @@ const WithDataCalendar = (View) => (props) => {
   const [currentPage, setCurrentPage] = useState(searchParams.get('page') || 1);
   const [dateFrom, setDateFrom] = useState(searchParams.get('dateFrom') || '');
   const [dateTo, setDateTo] = useState(searchParams.get('dateTo') || '');
-  const [data, setData] = useState([]);
+  const [items, setItems] = useState([]);
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
 
     getData(id, dateFrom, dateTo)
-      .then((item) => {
-        setName(item.name);
-        setData(item.items);
+      .then((data) => {
+        setName(data.name);
+        setItems(data.items);
       })
-      .catch(() => setIsError(true))
+      .catch(({ message }) => setError(message))
       .finally(() => setIsLoading(false));
   }, [dateTo, dateFrom]);
 
@@ -45,24 +46,24 @@ const WithDataCalendar = (View) => (props) => {
   };
 
   if (isLoading) {
-    return <Spin />;
+    return <Spinner />;
   }
 
-  if (isError) {
-    return <div>Error</div>;
+  if (error) {
+    return <ErrorMessage message={error} />;
   }
 
   return (
     <View
       {...props}
-      data={data}
+      data={items}
       paginationChangeHandler={paginationChangeHandler}
       datesChangeHandler={datesChangeHandler}
       currentPage={currentPage}
       dateFrom={dateFrom}
       dateTo={dateTo}
       name={name}
-      count={data.length}
+      count={items.length}
     />
   );
 };
