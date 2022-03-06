@@ -7,7 +7,7 @@ import {
 import withSoccerService from '../../hoc/with-soccer-service';
 import compose from '../../hoc/compose';
 import WithDataCalendar from '../../hoc/with-data-calendar';
-import Config from '../../utils/const';
+import { Config } from '../../utils/const';
 
 const TeamCalendarPage = ({
   data, paginationChangeHandler, datesChangeHandler, currentPage, dateFrom, dateTo, name, count,

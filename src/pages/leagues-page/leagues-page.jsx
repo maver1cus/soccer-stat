@@ -3,7 +3,7 @@ import Search from 'antd/es/input/Search';
 import { Pagination } from 'antd';
 import withSoccerService from '../../hoc/with-soccer-service';
 import LeaguesList from '../../componets/leagues-list/leagues-list';
-import Config from '../../utils/const';
+import { Config } from '../../utils/const';
 import withData from '../../hoc/withData';
 import compose from '../../hoc/compose';
 

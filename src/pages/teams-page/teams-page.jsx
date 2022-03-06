@@ -1,7 +1,7 @@
 import React from 'react';
 import Search from 'antd/es/input/Search';
 import { Pagination } from 'antd';
-import Config from '../../utils/const';
+import { Config } from '../../utils/const';
 import compose from '../../hoc/compose';
 import withSoccerService from '../../hoc/with-soccer-service';
 import withData from '../../hoc/withData';

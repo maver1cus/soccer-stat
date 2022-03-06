@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Spin } from 'antd';
+import ErrorMessage from '../componets/error-message/error-message';
+import Spinner from '../componets/spinner/spinner';
 
 const WithDataCalendar = (View) => (props) => {
   const { getData } = props;
@@ -12,7 +13,7 @@ const WithDataCalendar = (View) => (props) => {
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -22,7 +23,7 @@ const WithDataCalendar = (View) => (props) => {
         setName(item.name);
         setData(item.items);
       })
-      .catch(() => setIsError(true))
+      .catch(({ message }) => setError(message))
       .finally(() => setIsLoading(false));
   }, [dateTo, dateFrom]);
 
@@ -45,11 +46,11 @@ const WithDataCalendar = (View) => (props) => {
   };
 
   if (isLoading) {
-    return <Spin />;
+    return <Spinner />;
   }
 
-  if (isError) {
-    return <div>Error</div>;
+  if (error) {
+    return <ErrorMessage message={error} />;
   }
 
   return (

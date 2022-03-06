@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Message } from '../utils/const';
 
 class SoccerService {
   constructor() {
@@ -67,7 +68,12 @@ class SoccerService {
     });
 
     if (!res.ok) {
-      throw new Error(`Coluld not fetch ${url}, recevived ${res.status}`);
+      let message = Message.UNKNOWN_ERROR;
+
+      if (res.status === 403) {
+        message = Message.ERROR_PERMISSIONS_API;
+      }
+      throw new Error(message);
     }
 
     return res.json();

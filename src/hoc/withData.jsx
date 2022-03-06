@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Spin } from 'antd';
 import { useSearchParams } from 'react-router-dom';
-import Config from '../utils/const';
+import { Config } from '../utils/const';
+import Spinner from '../componets/spinner/spinner';
+import ErrorMessage from '../componets/error-message/error-message';
 
 const withData = (View) => (props) => {
   const { getData } = props;
@@ -10,14 +11,14 @@ const withData = (View) => (props) => {
   const [searchPhrase, setSearchPhrase] = useState(searchParams.get('q') || '');
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setIsLoading(true);
 
     getData()
       .then((items) => setData(items))
-      .catch(() => setIsError(true))
+      .catch(({ message }) => setError(message))
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -47,12 +48,13 @@ const withData = (View) => (props) => {
       .filter(({ name }) => name.toLowerCase().includes(searchPhrase.toLowerCase()))
       .slice(indexFirstElementToCurrentPage, indexLastElementToCurrentPage);
   };
+
   if (isLoading) {
-    return <Spin />;
+    return <Spinner />;
   }
 
-  if (isError) {
-    return <div>error</div>;
+  if (error) {
+    return <ErrorMessage message={error} />;
   }
 
   return (
