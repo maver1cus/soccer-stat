@@ -22,32 +22,27 @@ const withData = (View) => (props) => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const setCurrentSearchParams = () => {
-    setSearchParams({
-      page: currentPage,
-      q: searchPhrase,
-    });
-  };
-
   const paginationChangeHandler = (page) => {
+    setSearchParams({ ...Object.fromEntries([...searchParams]), page });
     setCurrentPage(page);
-    setCurrentSearchParams();
   };
 
   const searchChangeHandler = (phrase) => {
+    setSearchParams({ page: 1, q: phrase });
     setSearchPhrase(phrase);
-    setCurrentSearchParams();
   };
 
-  const getDataToShow = () => {
+  const getDataToShow = (filteredData) => {
     const indexFirstElementToCurrentPage = (currentPage - 1) * Config.COUNT_ITEMS_PER_PAGE;
     const indexLastElementToCurrentPage =
       indexFirstElementToCurrentPage + Config.COUNT_ITEMS_PER_PAGE;
 
-    return data
-      .filter(({ name }) => name.toLowerCase().includes(searchPhrase.toLowerCase()))
+    return filteredData
       .slice(indexFirstElementToCurrentPage, indexLastElementToCurrentPage);
   };
+
+  const filteredData = data
+    .filter(({ name }) => name.toLowerCase().includes(searchPhrase.toLowerCase()));
 
   if (isLoading) {
     return <Spinner />;
@@ -60,12 +55,12 @@ const withData = (View) => (props) => {
   return (
     <View
       {...props}
-      data={getDataToShow()}
+      data={getDataToShow(filteredData)}
       paginationChangeHandler={paginationChangeHandler}
       searchChangeHandler={searchChangeHandler}
       currentPage={currentPage}
       searchPhrase={searchPhrase}
-      count={data.length}
+      count={filteredData.length}
     />
   );
 };
