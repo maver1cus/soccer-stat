@@ -2,7 +2,7 @@ import React from 'react';
 import Search from 'antd/es/input/Search';
 import { Pagination } from 'antd';
 import withSoccerService from '../../hoc/with-soccer-service';
-import { Config } from '../../utils/const';
+import { COUNT_ITEMS_PER_PAGE } from '../../utils/const';
 import withData from '../../hoc/withData';
 import compose from '../../hoc/compose';
 import LeagueCard from '../../componets/league-card/league-card';
@@ -29,7 +29,7 @@ const LeaguesPage = (props) => {
       <Pagination
         defaultCurrent={currentPage}
         total={count}
-        pageSize={Config.COUNT_ITEMS_PER_PAGE}
+        pageSize={COUNT_ITEMS_PER_PAGE}
         onChange={paginationChangeHandler}
       />
     </div>

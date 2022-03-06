@@ -7,7 +7,7 @@ import {
 import withSoccerService from '../../hoc/with-soccer-service';
 import compose from '../../hoc/compose';
 import WithDataCalendar from '../../hoc/with-data-calendar';
-import { Config } from '../../utils/const';
+import { COUNT_ITEMS_PER_PAGE, DATE_FORMAT } from '../../utils/const';
 import './league-calendar-page.css';
 
 const LeagueCalendarPage = ({
@@ -27,7 +27,7 @@ const LeagueCalendarPage = ({
   ];
 
   const defaultValueRangePicker = (dateFrom && dateTo)
-    ? [moment(dateFrom, 'YYYY-MM-DD'), moment(dateFrom, 'YYYY-MM-DD')]
+    ? [moment(dateFrom, DATE_FORMAT), moment(dateFrom, DATE_FORMAT)]
     : null;
 
   return (
@@ -44,6 +44,7 @@ const LeagueCalendarPage = ({
         <DatePicker.RangePicker
           defaultValue={defaultValueRangePicker}
           onChange={datesChangeHandler}
+          format={DATE_FORMAT}
           className="league-calendar__date-picker"
         />
       </Space>
@@ -52,7 +53,7 @@ const LeagueCalendarPage = ({
         columns={columns}
         scroll={{ x: 1024 }}
         pagination={{
-          pageSize: Config.COUNT_ITEMS_PER_PAGE,
+          pageSize: COUNT_ITEMS_PER_PAGE,
           total: count,
           defaultCurrent: currentPage,
           onChange: paginationChangeHandler,

@@ -1,7 +1,7 @@
 import React from 'react';
 import Search from 'antd/es/input/Search';
 import { Pagination } from 'antd';
-import { Config } from '../../utils/const';
+import { COUNT_ITEMS_PER_PAGE } from '../../utils/const';
 import compose from '../../hoc/compose';
 import withSoccerService from '../../hoc/with-soccer-service';
 import withData from '../../hoc/withData';
@@ -32,7 +32,7 @@ const TeamsPage = (props) => {
       <Pagination
         defaultCurrent={currentPage}
         total={count}
-        pageSize={Config.COUNT_ITEMS_PER_PAGE}
+        pageSize={COUNT_ITEMS_PER_PAGE}
         onChange={paginationChangeHandler}
       />
     </div>

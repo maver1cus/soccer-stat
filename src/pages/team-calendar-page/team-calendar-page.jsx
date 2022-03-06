@@ -7,7 +7,7 @@ import {
 import withSoccerService from '../../hoc/with-soccer-service';
 import compose from '../../hoc/compose';
 import WithDataCalendar from '../../hoc/with-data-calendar';
-import { Config } from '../../utils/const';
+import { COUNT_ITEMS_PER_PAGE, DATE_FORMAT } from '../../utils/const';
 import './team-calendar-page.css';
 
 const TeamCalendarPage = ({
@@ -27,7 +27,7 @@ const TeamCalendarPage = ({
   ];
 
   const defaultValueRangePicker = (dateFrom && dateTo)
-    ? [moment(dateFrom, 'YYYY-MM-DD'), moment(dateFrom, 'YYYY-MM-DD')]
+    ? [moment(dateFrom, DATE_FORMAT), moment(dateFrom, DATE_FORMAT)]
     : null;
 
   return (
@@ -44,6 +44,7 @@ const TeamCalendarPage = ({
         <DatePicker.RangePicker
           defaultValue={defaultValueRangePicker}
           onChange={datesChangeHandler}
+          format={DATE_FORMAT}
           className="teams-calendar__date-picker"
         />
       </Space>
@@ -51,7 +52,7 @@ const TeamCalendarPage = ({
         dataSource={data}
         columns={columns}
         pagination={{
-          pageSize: Config.COUNT_ITEMS_PER_PAGE,
+          pageSize: COUNT_ITEMS_PER_PAGE,
           total: count,
           defaultCurrent: currentPage,
           onChange: paginationChangeHandler,

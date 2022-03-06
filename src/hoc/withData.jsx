@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Config } from '../utils/const';
+import { COUNT_ITEMS_PER_PAGE } from '../utils/const';
 import Spinner from '../componets/spinner/spinner';
 import ErrorMessage from '../componets/error-message/error-message';
 
@@ -33,9 +33,9 @@ const withData = (View) => (props) => {
   };
 
   const getItemsToShow = (filteredItems) => {
-    const indexFirstElementToCurrentPage = (currentPage - 1) * Config.COUNT_ITEMS_PER_PAGE;
+    const indexFirstElementToCurrentPage = (currentPage - 1) * COUNT_ITEMS_PER_PAGE;
     const indexLastElementToCurrentPage =
-      indexFirstElementToCurrentPage + Config.COUNT_ITEMS_PER_PAGE;
+      indexFirstElementToCurrentPage + COUNT_ITEMS_PER_PAGE;
 
     return filteredItems
       .slice(indexFirstElementToCurrentPage, indexLastElementToCurrentPage);
